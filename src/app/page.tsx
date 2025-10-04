@@ -31,6 +31,39 @@ export default function Home() {
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Structured Data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Mission 77 - Explore All 77 Districts of Nepal",
+    "description": "Join the journey to explore all 77 districts of Nepal. Track your progress, plan itineraries, and discover the beauty of Nepal one district at a time.",
+    "url": "https://mission77.pratapsharma.io",
+    "applicationCategory": "TravelApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Person",
+      "name": "Explore with Pratap"
+    },
+    "keywords": "Nepal travel, 77 districts Nepal, Nepal adventure, district exploration, Nepal tourism, travel tracking, Nepal map, adventure travel, Nepal districts, travel community, Mission 77, 77DistrictsOfNepal",
+    "about": {
+      "@type": "Place",
+      "name": "Nepal",
+      "description": "A country with 77 districts across 7 provinces, known for its diverse landscapes, rich culture, and adventure tourism opportunities."
+    },
+    "featureList": [
+      "Interactive map of all 77 districts of Nepal",
+      "Progress tracking for district exploration",
+      "Itinerary planning and management",
+      "Community features for travelers",
+      "Real-time district status updates"
+    ]
+  };
+
   const totalDistricts = 77;
   const progressPercentage = (coveredDistricts.length / totalDistricts) * 100;
 
@@ -139,7 +172,16 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:h-screen md:flex-row bg-gray-900">
+    <>
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
+      
+      <div className="min-h-screen flex flex-col md:h-screen md:flex-row bg-gray-900">
       {/* Mobile Sidebar Section - First on mobile */}
       <div className="md:hidden flex flex-col bg-gray-800 border-b border-gray-700">
 
@@ -340,6 +382,7 @@ export default function Home() {
       </div>
 
 
-    </div>
+      </div>
+    </>
   );
 }
