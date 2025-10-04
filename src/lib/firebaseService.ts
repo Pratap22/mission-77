@@ -8,14 +8,30 @@ import {
   query, 
   orderBy,
   Timestamp,
-  DocumentData
+  DocumentData,
+  FieldValue
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { Itinerary } from '../components/ItineraryManager';
+import { deleteField } from 'firebase/firestore';
 
-// Collection names
-const ITINERARIES_COLLECTION = 'itineraries';
-const DISTRICTS_COLLECTION = 'districts';
+// Collection names - different for production and development
+const isDevelopment = process.env.NODE_ENV === 'development';
+const ITINERARIES_COLLECTION = isDevelopment ? 'itineraries-dev' : 'itineraries';
+const DISTRICTS_COLLECTION = isDevelopment ? 'districts-dev' : 'districts';
+
+// Log environment info
+console.log(`🔥 Firebase Collections: ${isDevelopment ? 'DEVELOPMENT' : 'PRODUCTION'}`);
+console.log(`📋 Itineraries: ${ITINERARIES_COLLECTION}`);
+console.log(`🗺️ Districts: ${DISTRICTS_COLLECTION}`);
+
+// Utility function to get current environment info
+export const getEnvironmentInfo = () => ({
+  isDevelopment,
+  itinerariesCollection: ITINERARIES_COLLECTION,
+  districtsCollection: DISTRICTS_COLLECTION,
+  environment: isDevelopment ? 'development' : 'production'
+});
 
 // Itinerary functions
 export const addItinerary = async (itinerary: Omit<Itinerary, 'id'>) => {
@@ -76,10 +92,29 @@ export const updateDistrictStatus = async (districtId: string, status: {
 }) => {
   try {
     const districtRef = doc(db, DISTRICTS_COLLECTION, districtId);
-    await updateDoc(districtRef, {
-      ...status,
+    
+    const updateData: Record<string, string | boolean | Timestamp | FieldValue | string[]> = {
+      covered: status.covered,
       updatedAt: Timestamp.now()
-    });
+    };
+
+    // Only add dateVisited if it's provided and not undefined
+    if (status.dateVisited !== undefined) {
+      updateData.dateVisited = status.dateVisited;
+    } else if (status.covered === false) {
+      // If marking as uncovered, delete the dateVisited field
+      updateData.dateVisited = deleteField();
+    }
+
+    // Only add highlights if it's provided and not undefined
+    if (status.highlights !== undefined) {
+      updateData.highlights = status.highlights;
+    } else if (status.covered === false) {
+      // If marking as uncovered, delete the highlights field
+      updateData.highlights = deleteField();
+    }
+
+    await updateDoc(districtRef, updateData);
   } catch (error) {
     console.error('Error updating district status:', error);
     throw error;

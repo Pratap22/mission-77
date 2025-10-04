@@ -4,8 +4,8 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import { useEffect } from 'react';
 import { District } from '../data/nepal-districts';
+import { useSearchParams } from 'next/navigation';
 import 'leaflet/dist/leaflet.css';
-import MarkerClusterGroup from 'react-leaflet-cluster';
 
 // Fix for default markers in React-Leaflet
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,35 +32,40 @@ function MapController({ center }: { center: [number, number] }) {
 }
 
 export default function NepalMap({ districts, onDistrictClick }: NepalMapProps) {
-  // Create custom icons with smaller size for mobile optimization
+  const searchParams = useSearchParams();
+  const canModify = searchParams.get('patanahi') !== null;
+
+  // Create custom icons with larger size for better visibility
   const coveredIcon = new Icon({
     iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-      <svg width="20" height="32" viewBox="0 0 20 32" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 0C4.5 0 0 4.5 0 10c0 10 10 22 10 22s10-12 10-22C20 4.5 15.5 0 10 0z" fill="#22c55e"/>
-        <circle cx="10" cy="10" r="5" fill="white"/>
-        <path d="M7.5 10l1.5 1.5 3-3" stroke="#22c55e" stroke-width="1.5" fill="none"/>
+      <svg width="35" height="55" viewBox="0 0 35 55" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.5 0C7.8 0 0 7.8 0 17.5c0 17.5 17.5 37.5 17.5 37.5s17.5-20 17.5-37.5C35 7.8 27.2 0 17.5 0z" fill="#22c55e"/>
+        <circle cx="17.5" cy="17.5" r="8" fill="white"/>
+        <path d="M13.5 17.5l3 3 6-6" stroke="#22c55e" stroke-width="3" fill="none"/>
       </svg>
     `),
-    iconSize: [20, 32],
-    iconAnchor: [10, 32],
-    popupAnchor: [1, -28],
+    iconSize: [35, 55],
+    iconAnchor: [17, 55],
+    popupAnchor: [1, -50],
   });
 
   const uncoveredIcon = new Icon({
     iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-      <svg width="20" height="32" viewBox="0 0 20 32" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 0C4.5 0 0 4.5 0 10c0 10 10 22 10 22s10-12 10-22C20 4.5 15.5 0 10 0z" fill="#ef4444"/>
-        <circle cx="10" cy="10" r="5" fill="white"/>
-        <text x="10" y="13" text-anchor="middle" font-size="6" fill="#ef4444">?</text>
+      <svg width="35" height="55" viewBox="0 0 35 55" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.5 0C7.8 0 0 7.8 0 17.5c0 17.5 17.5 37.5 17.5 37.5s17.5-20 17.5-37.5C35 7.8 27.2 0 17.5 0z" fill="#ef4444"/>
+        <circle cx="17.5" cy="17.5" r="8" fill="white"/>
+        <text x="17.5" y="22" text-anchor="middle" font-size="12" fill="#ef4444">?</text>
       </svg>
     `),
-    iconSize: [20, 32],
-    iconAnchor: [10, 32],
-    popupAnchor: [1, -28],
+    iconSize: [35, 55],
+    iconAnchor: [17, 55],
+    popupAnchor: [1, -50],
   });
 
   const handleDistrictClick = (district: District) => {
-    onDistrictClick(district);
+    if (canModify) {
+      onDistrictClick(district);
+    }
   };
 
   return (
@@ -82,15 +87,7 @@ export default function NepalMap({ districts, onDistrictClick }: NepalMapProps) 
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
-        <MarkerClusterGroup
-          chunkedLoading
-          spiderfyOnMaxZoom={true}
-          showCoverageOnHover={false}
-          zoomToBoundsOnClick={true}
-          maxClusterRadius={50}
-          disableClusteringAtZoom={12}
-        >
-          {districts.map((district) => (
+        {districts.map((district) => (
           <Marker
             key={district.id}
             position={[district.coordinates[1], district.coordinates[0]]} // Convert [lng, lat] to [lat, lng]
@@ -110,24 +107,19 @@ export default function NepalMap({ districts, onDistrictClick }: NepalMapProps) 
                   </span>
                 </div>
                 <p className="text-xs text-blue-600 font-medium mb-1">
-                  Click to {district.covered ? 'unmark' : 'mark'} as covered
+                  {canModify 
+                    && `Click to ${district.covered ? 'unmark' : 'mark'} as covered`
+                  }
                 </p>
                 {district.covered && district.dateVisited && (
                   <p className="text-xs text-gray-500 mt-1">
                     Visited: {district.dateVisited}
                   </p>
                 )}
-                {/* <button
-                  className="mt-2 px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600"
-                  onClick={() => handleDistrictClick(district)}
-                >
-                  {district.covered ? 'View Details' : 'Mark as Covered'}
-                </button> */}
               </div>
             </Popup>
           </Marker>
-          ))}
-        </MarkerClusterGroup>
+        ))}
       </MapContainer>
     </div>
   );

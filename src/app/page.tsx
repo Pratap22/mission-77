@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Users, Mountain, Menu, X } from 'lucide-react';
+import { Users, Mountain } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import ItineraryManager, { Itinerary } from '../components/ItineraryManager';
 import { District } from '../data/nepal-districts';
@@ -29,7 +29,6 @@ export default function Home() {
   const [districts, setDistricts] = useState<District[]>([]);
   const [coveredDistricts, setCoveredDistricts] = useState<string[]>([]);
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [loading, setLoading] = useState(true);
 
   const totalDistricts = 77;
@@ -140,53 +139,107 @@ export default function Home() {
   }
 
   return (
-    <div className="h-screen flex bg-gray-900">
-      {/* Map Section - 70% width on tablet and desktop */}
-      <div className="w-full md:w-[70%] relative">
-        <NepalMap 
-          districts={districts}
-          onDistrictClick={handleDistrictClick}
-        />
-        
-        {/* Mobile Header */}
-        <header className="md:hidden absolute top-4 left-4 right-4 z-20">
-          <div className="bg-gray-800/95 backdrop-blur-sm shadow-lg rounded-lg p-4 border border-gray-700">
-            <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+    <div className="min-h-screen flex flex-col md:h-screen md:flex-row bg-gray-900">
+      {/* Mobile Sidebar Section - First on mobile */}
+      <div className="md:hidden flex flex-col bg-gray-800 border-b border-gray-700">
+
+        {/* Mobile Sidebar Content */}
+        <div className="p-3 space-y-3">
+          {/* Mission 77 Header */}
+          <div className="bg-gray-700 rounded-lg shadow-sm border border-gray-600 p-6">
+            <div className="flex items-center space-x-3 mb-4">
               <Logo size={48} />
               <div>
                 <h1 className="text-xl font-bold text-white">Mission 77</h1>
-                <p className="text-xs text-gray-300">#77DistrictsOfNepal</p>
-              </div>
-            </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-white">{coveredDistricts.length}/77</div>
-                <div className="text-lg font-semibold text-blue-400">{progressPercentage.toFixed(1)}%</div>
+                <p className="text-sm text-gray-300">#77DistrictsOfNepal</p>
               </div>
             </div>
             
+            {/* Progress Section */}
+            <div className="text-center mb-4">
+              <div className="text-3xl font-bold text-white mb-1">{coveredDistricts.length}/77</div>
+              <div className="text-xl font-semibold text-blue-400 mb-2">{progressPercentage.toFixed(1)}%</div>
+              <div className="text-sm text-gray-300">Districts Covered</div>
+            </div>
+            
             {/* Progress Bar */}
-            <div className="mt-3">
-              <div className="w-full bg-gray-700 rounded-full h-2">
+            <div className="mt-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-300">Progress</span>
+                <span className="text-sm font-medium text-gray-300">{progressPercentage.toFixed(1)}%</span>
+              </div>
+              <div className="w-full bg-gray-600 rounded-full h-3">
                 <div 
-                  className="bg-gradient-to-r from-red-500 to-blue-500 h-2 rounded-full transition-all duration-300"
+                  className="bg-gradient-to-r from-red-500 to-blue-500 h-3 rounded-full transition-all duration-300"
                   style={{ width: `${progressPercentage}%` }}
                 ></div>
               </div>
             </div>
           </div>
-        </header>
+
+          {/* Itinerary Manager */}
+          <div className="bg-gray-700 rounded-lg shadow-sm border border-gray-600 p-6">
+            <ItineraryManager
+              districts={districts}
+              coveredDistricts={coveredDistricts}
+              itineraries={itineraries}
+              onAddItinerary={handleAddItinerary}
+              onUpdateItinerary={handleUpdateItinerary}
+              onDeleteItinerary={handleDeleteItinerary}
+            />
+          </div>
+
+          {/* Quick Stats */}
+          <div className="bg-gray-700 rounded-lg shadow-sm border border-gray-600 p-6">
+            <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+              <Mountain className="h-5 w-5 mr-2 text-green-400" />
+              Quick Stats
+            </h3>
+            <div className="space-y-3">
+              <div className="flex justify-between">
+                <span className="text-gray-300">Districts Covered</span>
+                <span className="font-semibold text-white">{coveredDistricts.length}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-300">Remaining</span>
+                <span className="font-semibold text-white">{totalDistricts - coveredDistricts.length}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-300">Progress</span>
+                <span className="font-semibold text-white">{progressPercentage.toFixed(1)}%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Join Community */}
+          <div className="bg-gradient-to-r from-red-600/90 to-blue-600/90 backdrop-blur-sm rounded-lg shadow-lg p-6 text-white border border-gray-700">
+            <h3 className="text-lg font-semibold mb-2 flex items-center">
+              <Users className="h-5 w-5 mr-2" />
+              Join the Journey
+            </h3>
+            <p className="text-sm opacity-90 mb-4">
+              Connect with fellow adventurers and join upcoming expeditions to explore Nepal&apos;s beautiful districts.
+            </p>
+            <button 
+              onClick={() => window.open('https://chat.whatsapp.com/KHaO9UExvvHASvXQ63RD1D?mode=wwc', '_blank')}
+              className="bg-white text-red-600 py-2 px-4 rounded-md font-medium hover:bg-gray-100 transition-colors"
+            >
+              Join Community
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Map Section - Second on mobile, 70% width on tablet and desktop */}
+      <div className="w-full md:w-[70%] relative h-[60vh] md:h-full overflow-hidden">
+        <NepalMap 
+          districts={districts}
+          onDistrictClick={handleDistrictClick}
+        />
       </div>
 
       {/* Sidebar Section - 30% width on tablet and desktop */}
       <div className="hidden md:flex md:w-[30%] flex-col bg-gray-800 border-l border-gray-700">
-        {/* Sidebar Toggle Button */}
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="absolute top-4 right-4 z-30 bg-gray-800/95 backdrop-blur-sm shadow-lg rounded-lg p-2 hover:bg-gray-700 transition-colors md:hidden border border-gray-700"
-        >
-          {sidebarOpen ? <X className="h-5 w-5 text-white" /> : <Menu className="h-5 w-5 text-white" />}
-        </button>
 
         {/* Desktop Sidebar */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -286,107 +339,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Mobile Floating Sidebar */}
-      {sidebarOpen && (
-        <div className="md:hidden absolute top-24 right-4 w-80 max-h-[calc(100vh-8rem)] overflow-y-auto space-y-4 z-20">
-          {/* Mission 77 Header */}
-          <div className="bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-700 p-6">
-            <div className="flex items-center space-x-3 mb-4">
-              <Logo size={48} />
-              <div>
-                <h1 className="text-xl font-bold text-white">Mission 77</h1>
-                <p className="text-sm text-gray-300">#77DistrictsOfNepal</p>
-              </div>
-            </div>
-            
-            {/* Progress Section */}
-            <div className="text-center mb-4">
-              <div className="text-3xl font-bold text-white mb-1">{coveredDistricts.length}/77</div>
-              <div className="text-xl font-semibold text-blue-400 mb-2">{progressPercentage.toFixed(1)}%</div>
-              <div className="text-sm text-gray-300">Districts Covered</div>
-            </div>
-            
-            {/* Progress Bar */}
-            <div className="mt-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-300">Progress</span>
-                <span className="text-sm font-medium text-gray-300">{progressPercentage.toFixed(1)}%</span>
-              </div>
-              <div className="w-full bg-gray-600 rounded-full h-3">
-                <div 
-                  className="bg-gradient-to-r from-red-500 to-blue-500 h-3 rounded-full transition-all duration-300"
-                  style={{ width: `${progressPercentage}%` }}
-                ></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Itinerary Manager */}
-          <div className="bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-700 p-6">
-            <ItineraryManager
-              districts={districts}
-              coveredDistricts={coveredDistricts}
-              itineraries={itineraries}
-              onAddItinerary={handleAddItinerary}
-              onUpdateItinerary={handleUpdateItinerary}
-              onDeleteItinerary={handleDeleteItinerary}
-            />
-          </div>
-
-          {/* Quick Stats */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <Mountain className="h-5 w-5 mr-2 text-green-600" />
-              Quick Stats
-            </h3>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Districts Covered</span>
-                <span className="font-semibold">{coveredDistricts.length}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Remaining</span>
-                <span className="font-semibold">{totalDistricts - coveredDistricts.length}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Progress</span>
-                <span className="font-semibold">{progressPercentage.toFixed(1)}%</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Join Community */}
-          <div className="bg-gradient-to-r from-red-600/90 to-blue-600/90 backdrop-blur-sm rounded-lg shadow-lg p-6 text-white">
-            <h3 className="text-lg font-semibold mb-2 flex items-center">
-              <Users className="h-5 w-5 mr-2" />
-              Join the Journey
-            </h3>
-            <p className="text-sm opacity-90 mb-4">
-              Connect with fellow adventurers and join upcoming expeditions to explore Nepal&apos;s beautiful districts.
-            </p>
-            <button 
-              onClick={() => window.open('https://chat.whatsapp.com/KHaO9UExvvHASvXQ63RD1D?mode=wwc', '_blank')}
-              className="bg-white text-red-600 py-2 px-4 rounded-md font-medium hover:bg-gray-100 transition-colors"
-            >
-              Join Community
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Floating Footer - Mobile Only */}
-      <div className="md:hidden absolute bottom-4 left-4 right-4 z-20">
-        <div className="bg-gray-800/95 backdrop-blur-sm shadow-lg rounded-lg p-3 border border-gray-700">
-          <div className="text-center">
-            <p className="text-sm text-gray-200 mb-2">Exploring all 77 districts of Nepal, one adventure at a time</p>
-            <div className="flex justify-center space-x-6">
-              <span className="text-xs text-gray-400">#77DistrictsOfNepal</span>
-              <span className="text-xs text-gray-400">#Mission77</span>
-              <span className="text-xs text-gray-400">#NepalAdventure</span>
-            </div>
-          </div>
-        </div>
-      </div>
 
     </div>
   );
