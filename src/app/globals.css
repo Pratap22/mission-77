@@ -24,3 +24,280 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Syntax highlighting for code blocks */
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #64748b;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #f472b6;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #fb923c;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #a5f3fc;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #fbbf24;
+  font-weight: bold;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #facc15;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #34d399;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #93c5fd;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #c084fc;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #60a5fa;
+}
+
+.hljs-meta {
+  color: #94a3b8;
+}
+
+.hljs-deletion {
+  background: #991b1b;
+}
+
+.hljs-addition {
+  background: #065f46;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+/* Enhanced Blog Content Styles */
+.prose {
+  /* Clean text selection */
+  ::selection {
+    background: rgba(59, 130, 246, 0.3);
+    color: white;
+  }
+  
+  /* Smooth scroll behavior */
+  scroll-behavior: smooth;
+}
+
+/* Clean typography for better readability */
+.prose h1 {
+  position: relative;
+}
+
+.prose h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  background: #3b82f6;
+  border-radius: 1px;
+}
+
+.prose h2 {
+  position: relative;
+  font-weight: bold;
+  font-size: 2rem;
+  padding-top: 1.2rem;
+}
+
+/* Enhanced list styling */
+.prose ul li::marker {
+  color: #3b82f6;
+  font-weight: bold;
+}
+
+.prose ol li::marker {
+  color: #3b82f6;
+  font-weight: bold;
+}
+
+/* Clean blockquote styling */
+.prose blockquote {
+  position: relative;
+  background: rgba(31, 41, 55, 0.5);
+  border-left: 4px solid #3b82f6;
+  padding: 1.5rem 2rem;
+  margin: 2rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Enhanced code styling */
+.prose code {
+  background: rgba(31, 41, 55, 0.8);
+  color: #60a5fa;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  border: 1px solid rgba(75, 85, 99, 0.5);
+}
+
+.prose pre {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1.5rem;
+  overflow-x: auto;
+  position: relative;
+}
+
+.prose pre::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3b82f6, #9333ea, #3b82f6);
+  border-radius: 8px 8px 0 0;
+}
+
+/* Enhanced image styling */
+.prose img {
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(75, 85, 99, 0.5);
+  transition: all 0.3s ease;
+}
+
+.prose img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+}
+
+/* Enhanced table styling */
+.prose table {
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+.prose th {
+  background: linear-gradient(135deg, #1e40af, #7c3aed);
+  color: white;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid #334155;
+}
+
+.prose td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #334155;
+  background: rgba(31, 41, 55, 0.5);
+  color: #e2e8f0;
+}
+
+.prose tr:hover td {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+/* Enhanced link styling */
+.prose a {
+  color: #60a5fa;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.prose a:hover {
+  color: #93c5fd;
+}
+
+.prose a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3b82f6, #9333ea);
+  transition: width 0.3s ease;
+}
+
+.prose a:hover::after {
+  width: 100%;
+}
+
+/* Enhanced focus states for accessibility */
+.prose a:focus,
+.prose button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Reading progress indicator */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #9333ea);
+  z-index: 50;
+  transition: width 0.1s ease;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced strong text */
+.prose strong {
+  color: #ffffff;
+  font-weight: 600;
+}

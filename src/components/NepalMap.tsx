@@ -97,7 +97,7 @@ export default function NepalMap({ districts, onDistrictClick }: NepalMapProps) 
             }}
           >
             <Popup>
-              <div className="p-2">
+              <div className="p-2 min-w-[200px]">
                 <h3 className="font-semibold text-lg">{district.name}</h3>
                 <p className="text-sm text-gray-600 mb-2">{district.province} Province</p>
                 <div className="flex items-center space-x-2 mb-2">
@@ -116,6 +116,14 @@ export default function NepalMap({ districts, onDistrictClick }: NepalMapProps) 
                     Visited: {district.dateVisited}
                   </p>
                 )}
+                <div className="mt-3 pt-2 border-t border-gray-200">
+                  <a 
+                    href="/blog"
+                    className="text-xs text-blue-600 hover:text-blue-800 font-medium block"
+                  >
+                    📖 View Travel Stories →
+                  </a>
+                </div>
               </div>
             </Popup>
           </Marker>

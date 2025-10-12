@@ -189,12 +189,21 @@ export default function Home() {
         <div className="p-3 space-y-3">
           {/* Mission 77 Header */}
           <div className="bg-gray-700 rounded-lg shadow-sm border border-gray-600 p-6">
-            <div className="flex items-center space-x-3 mb-4">
-              <Logo size={48} />
-              <div>
-                <h1 className="text-xl font-bold text-white">Mission 77</h1>
-                <p className="text-sm text-gray-300">#77DistrictsOfNepal</p>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <Logo size={48} />
+                <div>
+                  <h1 className="text-xl font-bold text-white">Mission 77</h1>
+                  <p className="text-sm text-gray-300">#77DistrictsOfNepal</p>
+                </div>
               </div>
+              <a 
+                href="/blog"
+                className="text-blue-400 hover:text-blue-300 transition-colors text-2xl"
+                title="Read Travel Stories"
+              >
+                📖
+              </a>
             </div>
             
             {/* Progress Section */}
@@ -287,12 +296,21 @@ export default function Home() {
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {/* Mission 77 Header */}
           <div className="bg-gray-700 rounded-lg shadow-sm border border-gray-600 p-6">
-            <div className="flex items-center space-x-3 mb-4">
-              <Logo size={58} />
-              <div>
-                <h1 className="text-2xl font-bold text-white">Mission 77</h1>
-                <p className="text-sm text-gray-300">#77DistrictsOfNepal</p>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <Logo size={58} />
+                <div>
+                  <h1 className="text-2xl font-bold text-white">Mission 77</h1>
+                  <p className="text-sm text-gray-300">#77DistrictsOfNepal</p>
+                </div>
               </div>
+              <a 
+                href="/blog"
+                className="text-blue-400 hover:text-blue-300 transition-colors text-3xl"
+                title="Read Travel Stories"
+              >
+                📖
+              </a>
             </div>
             
             {/* Progress Section */}
