@@ -3,6 +3,7 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import { useEffect } from 'react';
+import Link from 'next/link';
 import { District } from '../data/nepal-districts';
 import { useSearchParams } from 'next/navigation';
 import 'leaflet/dist/leaflet.css';
@@ -117,12 +118,12 @@ export default function NepalMap({ districts, onDistrictClick }: NepalMapProps) 
                   </p>
                 )}
                 <div className="mt-3 pt-2 border-t border-gray-200">
-                  <a 
+                  <Link 
                     href="/blog"
                     className="text-xs text-blue-600 hover:text-blue-800 font-medium block"
                   >
                     📖 View Travel Stories →
-                  </a>
+                  </Link>
                 </div>
               </div>
             </Popup>

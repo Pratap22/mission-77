@@ -1,4 +1,4 @@
-import { getBlogPost, getAllBlogSlugs } from '@/lib/blogService';
+import { getAllBlogSlugs } from '@/lib/blogService';
 
 export async function generateStaticParams() {
   const slugs = getAllBlogSlugs();
@@ -9,10 +9,8 @@ export async function generateStaticParams() {
 
 export default function BlogPostLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ slug: string }>;
 }) {
   return (
     <>

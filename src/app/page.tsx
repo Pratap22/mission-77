@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Users, Mountain } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import ItineraryManager, { Itinerary } from '../components/ItineraryManager';
 import CompletedDistricts from '../components/CompletedDistricts';
 import { District } from '../data/nepal-districts';
@@ -198,13 +199,13 @@ export default function Home() {
                   <p className="text-sm text-gray-300">#77DistrictsOfNepal</p>
                 </div>
               </div>
-              <a 
+              <Link 
                 href="/blog"
                 className="text-blue-400 hover:text-blue-300 transition-colors text-2xl"
                 title="Read Travel Stories"
               >
                 📖
-              </a>
+              </Link>
             </div>
             
             {/* Progress Section */}
@@ -311,13 +312,13 @@ export default function Home() {
                   <p className="text-sm text-gray-300">#77DistrictsOfNepal</p>
                 </div>
               </div>
-              <a 
+              <Link 
                 href="/blog"
                 className="text-blue-400 hover:text-blue-300 transition-colors text-3xl"
                 title="Read Travel Stories"
               >
                 📖
-              </a>
+              </Link>
             </div>
             
             {/* Progress Section */}

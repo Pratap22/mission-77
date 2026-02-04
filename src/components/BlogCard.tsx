@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar, MapPin, Tag, ArrowRight } from 'lucide-react';
 import { BlogMetadata } from '@/lib/blogService';
 
@@ -17,10 +18,11 @@ export default function BlogCard({ post }: BlogCardProps) {
         
         {post.coverImage && (
           <div className="relative h-64 overflow-hidden">
-            <img 
+            <Image 
               src={post.coverImage} 
               alt={post.title}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              fill
+              className="object-cover group-hover:scale-110 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent opacity-60" />
             
