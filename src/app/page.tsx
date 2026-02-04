@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Users, Mountain } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import ItineraryManager, { Itinerary } from '../components/ItineraryManager';
+import CompletedDistricts from '../components/CompletedDistricts';
 import { District } from '../data/nepal-districts';
 import Logo from '../components/Logo';
 import { 
@@ -240,6 +241,12 @@ export default function Home() {
             />
           </div>
 
+          {/* Completed Districts */}
+          <CompletedDistricts
+            districts={districts}
+            coveredDistricts={coveredDistricts}
+          />
+
           {/* Quick Stats */}
           <div className="bg-gray-700 rounded-lg shadow-sm border border-gray-600 p-6">
             <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
@@ -345,6 +352,12 @@ export default function Home() {
               onDeleteItinerary={handleDeleteItinerary}
             />
           </div>
+
+          {/* Completed Districts */}
+          <CompletedDistricts
+            districts={districts}
+            coveredDistricts={coveredDistricts}
+          />
 
           {/* Quick Stats */}
           <div className="bg-gray-700 rounded-lg shadow-sm border border-gray-600 p-6">
